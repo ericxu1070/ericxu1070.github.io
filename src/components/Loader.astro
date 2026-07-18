@@ -1,0 +1,220 @@
+---
+// Loader.astro - Lorenz attractor loading screen
+// Owned by: Loader agent. Do not edit from other agents.
+---
+
+<div id="loader" aria-hidden="true">
+  <canvas id="lorenz-canvas" aria-hidden="true"></canvas>
+  <p class="loader-caption">σ = 10 · ρ = 28 · β = 8/3</p>
+</div>
+
+<style>
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  #loader.done {
+    transform: translateY(-100%);
+  }
+
+  #lorenz-canvas {
+    width: min(72vmin, 620px);
+    height: min(72vmin, 620px);
+    display: block;
+  }
+
+  .loader-caption {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--paper, #f2efe6);
+    letter-spacing: 0.25em;
+    text-transform: none;
+    margin-top: 16px;
+  }
+</style>
+
+<script>
+  import * as THREE from "three";
+
+  (function () {
+    const html = document.documentElement;
+    const loaderEl = document.getElementById("loader") as HTMLElement | null;
+
+    // Gate: if already seen this session or reduced motion, skip loader
+    if (html.classList.contains("ready")) {
+      if (loaderEl) loaderEl.remove();
+      return;
+    }
+
+    // Mark session so loader only plays once per session
+    try {
+      sessionStorage.setItem("lorenz-seen", "1");
+    } catch (_) {
+      // storage blocked - proceed anyway
+    }
+
+    const canvas = document.getElementById("lorenz-canvas") as HTMLCanvasElement | null;
+    if (!canvas || !loaderEl) {
+      html.classList.add("ready");
+      if (loaderEl) loaderEl.remove();
+      return;
+    }
+
+    // --- Lorenz integration ---
+    const sigma = 10,
+      rho = 28,
+      beta = 8 / 3,
+      dt = 0.004;
+    const N = 6000;
+
+    let lx = 0.01,
+      ly = 0,
+      lz = 0;
+
+    // Warmup: 500 steps discarded
+    for (let i = 0; i < 500; i++) {
+      const dx = sigma * (ly - lx);
+      const dy = lx * (rho - lz) - ly;
+      const dz = lx * ly - beta * lz;
+      lx += dx * dt;
+      ly += dy * dt;
+      lz += dz * dt;
+    }
+
+    // Record N points; map (x, y, z_lorenz) -> world (x, z_lorenz - 25, y)
+    const positions = new Float32Array(N * 3);
+    const colors = new Float32Array(N * 3);
+
+    const vermilion = new THREE.Color(0xff4d2e);
+    const ultramarine = new THREE.Color(0x2b4bff);
+    const tmp = new THREE.Color();
+
+    for (let i = 0; i < N; i++) {
+      const dx = sigma * (ly - lx);
+      const dy = lx * (rho - lz) - ly;
+      const dz = lx * ly - beta * lz;
+      lx += dx * dt;
+      ly += dy * dt;
+      lz += dz * dt;
+
+      positions[i * 3 + 0] = lx;
+      positions[i * 3 + 1] = lz - 25; // stand upright, centered near z=25 range
+      positions[i * 3 + 2] = ly;
+
+      // Smooth color oscillation
+      const t = 0.5 + 0.5 * Math.sin(i * 0.004);
+      THREE.Color.prototype.lerpColors
+        ? tmp.lerpColors(vermilion, ultramarine, t)
+        : tmp.copy(vermilion).lerp(ultramarine, t);
+      colors[i * 3 + 0] = tmp.r;
+      colors[i * 3 + 1] = tmp.g;
+      colors[i * 3 + 2] = tmp.b;
+    }
+
+    // Build geometry
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    geometry.setDrawRange(0, 0);
+
+    const material = new THREE.LineBasicMaterial({ vertexColors: true });
+    const line = new THREE.Line(geometry, material);
+
+    const group = new THREE.Group();
+    group.add(line);
+    group.rotation.y = -0.5;
+
+    // --- Framing: bounding-sphere based camera distance ---
+    geometry.computeBoundingSphere();
+    const sphere = geometry.boundingSphere!;
+    const cx = sphere.center.x,
+      cy = sphere.center.y,
+      cz = sphere.center.z;
+    geometry.translate(-cx, -cy, -cz);
+    geometry.computeBoundingSphere();
+    const r = geometry.boundingSphere!.radius;
+
+    const fov = 42;
+    // distance so sphere fits with 15% margin: r*1.15 / sin(fov/2)
+    const camZ = (r * 1.15) / Math.sin(THREE.MathUtils.degToRad(fov / 2));
+
+    const scene = new THREE.Scene();
+    scene.add(group);
+
+    const camera = new THREE.PerspectiveCamera(fov, 1, 0.1, camZ * 10);
+    camera.position.z = camZ;
+
+    // Renderer - try/catch for WebGL failure
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+      });
+    } catch (_) {
+      html.classList.add("ready");
+      loaderEl.remove();
+      return;
+    }
+
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const side = canvas.clientWidth || 480;
+    renderer.setSize(side, side, false);
+
+    // --- Easing ---
+    function easeOutCubic(t: number): number {
+      const c = 1 - t;
+      return 1 - c * c * c;
+    }
+
+    // --- Animation loop ---
+    let rafId: number;
+    let finished = false;
+    const startTime = performance.now();
+
+    function tick() {
+      if (finished) return;
+      rafId = requestAnimationFrame(tick);
+
+      const elapsed = performance.now() - startTime;
+      const drawT = Math.min(elapsed / 1300, 1);
+      const drawCount = Math.min(Math.floor(N * easeOutCubic(drawT)), N);
+      geometry.setDrawRange(0, drawCount);
+
+      // Rotation: 0.45 rad/s
+      group.rotation.y = -0.5 + elapsed * 0.00045;
+
+      renderer.render(scene, camera);
+
+      // At t = 1300ms: add "done" to loader + "ready" to html (reveals content)
+      if (elapsed >= 1300 && !html.classList.contains("ready")) {
+        loaderEl.classList.add("done");
+        html.classList.add("ready");
+      }
+
+      // At t = 2000ms: stop and remove
+      if (elapsed >= 2000) {
+        finished = true;
+        cancelAnimationFrame(rafId);
+        renderer.dispose();
+        geometry.dispose();
+        material.dispose();
+        // Guard against double-removal
+        if (loaderEl.parentNode) {
+          loaderEl.remove();
+        }
+      }
+    }
+
+    tick();
+  })();
+</script>

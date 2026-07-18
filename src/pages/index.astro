@@ -1,0 +1,229 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects.js";
+
+const featured = projects.filter((p) => p.featured);
+---
+
+<BaseLayout title="Home" description="Eric Xu - software, mathematics, and the systems in between.">
+
+  <!-- HERO -->
+  <section class="section hero-section">
+    <div class="container">
+      <h1 class="hero-name" aria-label="Eric Xu">
+        <span class="hero-line reveal" style="--reveal-delay: 0s" aria-hidden="true">ERIC</span>
+        <span class="hero-line hero-xu reveal" style="--reveal-delay: 0.1s" aria-hidden="true">XU</span>
+      </h1>
+      <p class="tagline reveal" style="--reveal-delay: 0.2s">
+        Applied mathematics at UC Santa Cruz. Scientific machine learning, GPU computing, and dynamical systems.
+      </p>
+      <div class="hero-ctas reveal" style="--reveal-delay: 0.3s">
+        <a href="/recruiters" class="btn btn--accent">For recruiters</a>
+        <a href="/research" class="btn">Research</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section scroll-reveal">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">About</span>
+      </div>
+      <!-- PLACEHOLDER: Eric to replace this factual stub with a personal bio in his own voice -->
+      <div class="about-body">
+        <p>
+          Eric Xu completed a B.S. in Applied Mathematics with Highest Honors at UC Santa Cruz in June 2026 (GPA 3.77) and is beginning an M.S. in Applied Mathematics there in Fall 2026. He is an undergraduate researcher in the TACS Lab working on machine learning for extreme weather prediction and has tutored linear algebra for three consecutive quarters.
+        </p>
+        <p class="about-stub">A fuller bio is coming soon.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Selected work</span>
+      </div>
+      <div class="projects-grid">
+        {featured.map((project, i) => (
+          <div class="scroll-reveal" style={`--reveal-delay: ${i * 0.1}s`}>
+            <ProjectCard project={project} />
+          </div>
+        ))}
+      </div>
+      <div class="all-projects-link">
+        <a href="/projects" class="mono-link">All projects -&gt;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="section scroll-reveal">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Notes</span>
+      </div>
+      <p class="notes-standfirst">
+        Working notes on things I want to understand well enough to explain.
+      </p>
+      <nav class="notes-topics" aria-label="Notes topics">
+        <a href="/notes" class="topic-link topic-link--1">GPU programming</a>
+        <a href="/notes" class="topic-link topic-link--2">Deep learning</a>
+        <a href="/notes" class="topic-link topic-link--3">Linear algebra</a>
+      </nav>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* HERO */
+  .hero-section {
+    padding-top: clamp(72px, 12vw, 128px);
+  }
+
+  .hero-name {
+    display: block;
+    margin: 0 0 28px 0;
+    line-height: 0.95;
+  }
+
+  .hero-line {
+    display: block;
+    font-family: "Archivo", sans-serif;
+    font-size: clamp(56px, 11vw, 128px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .hero-xu {
+    color: var(--vermilion);
+  }
+
+  .tagline {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.55;
+    max-width: 560px;
+    color: var(--ink);
+    margin: 0 0 40px 0;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  /* ABOUT */
+  .about-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 680px;
+  }
+
+  .about-body p {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .about-stub {
+    font-family: "IBM Plex Mono", monospace !important;
+    font-size: 13px !important;
+    color: var(--muted) !important;
+  }
+
+  /* SELECTED WORK */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .all-projects-link {
+    margin-top: 8px;
+  }
+
+  .mono-link {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    transition: color 0.15s ease;
+  }
+
+  .mono-link:hover {
+    color: var(--vermilion);
+    text-decoration-color: var(--vermilion);
+  }
+
+  .mono-link:focus-visible {
+    outline: 3px solid var(--ultramarine);
+    outline-offset: 2px;
+  }
+
+  /* NOTES */
+  .notes-standfirst {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .notes-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .topic-link {
+    font-family: "Archivo", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    border: 3px solid var(--ink);
+    background: var(--card);
+    padding: 10px 20px;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .topic-link:focus-visible {
+    outline: 3px solid var(--ultramarine);
+    outline-offset: 2px;
+  }
+
+  /* alternate hover colors per contract */
+  .topic-link--1:hover {
+    background: var(--ultramarine);
+    color: var(--paper);
+  }
+
+  .topic-link--2:hover {
+    background: var(--vermilion);
+    color: var(--paper);
+  }
+
+  .topic-link--3:hover {
+    background: var(--ultramarine);
+    color: var(--paper);
+  }
+</style>

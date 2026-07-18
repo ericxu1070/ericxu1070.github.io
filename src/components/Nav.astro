@@ -1,0 +1,120 @@
+---
+const pathname = Astro.url.pathname;
+
+// Prefix match: /projects matches /projects and /projects/foo
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href + '/');
+}
+
+const links = [
+  { href: '/projects', label: 'Projects' },
+  { href: '/notes', label: 'Notes' },
+  { href: '/research', label: 'Research' },
+  { href: '/recruiters', label: 'Recruiters' },
+];
+---
+
+<nav class="nav" aria-label="Primary navigation">
+  <div class="nav__inner container">
+    <a href="/" class="nav__brand" aria-label="Eric Xu - home">ERIC XU</a>
+    <ul class="nav__links" role="list">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={['nav__link', { 'nav__link--active': isActive(href) }]}
+            aria-current={isActive(href) ? 'page' : undefined}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    position: relative;
+    z-index: 10;
+  }
+
+  .nav__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 20px;
+  }
+
+  .nav__brand {
+    font-family: "Archivo", sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.15s ease;
+    white-space: nowrap;
+    margin-right: 20px;
+  }
+
+  .nav__brand:hover {
+    color: var(--vermilion);
+  }
+
+  .nav__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 28px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav__link {
+    font-family: "Archivo", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    text-decoration: none;
+    padding-block: 4px;
+    position: relative;
+    transition: color 0.15s ease;
+  }
+
+  @media (max-width: 420px) {
+    .nav__links {
+      gap: 0 16px;
+    }
+
+    .nav__link {
+      font-size: 12px;
+      letter-spacing: 0.01em;
+      padding-block: 12px;
+    }
+  }
+
+  .nav__link:hover {
+    color: var(--vermilion);
+  }
+
+  /* Active page indicator: 4px vermilion underline */
+  .nav__link--active {
+    color: var(--ink);
+  }
+
+  .nav__link--active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--vermilion);
+  }
+</style>

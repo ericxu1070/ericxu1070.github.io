@@ -1,0 +1,95 @@
+---
+import Loader from '../components/Loader.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Personal portfolio of Eric Xu - software, mathematics, and the systems in between.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} - Eric Xu</title>
+    <meta name="description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google Fonts: preconnect then load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Loader gate: runs before paint to decide if loader is needed this session -->
+    <script is:inline>
+      (function () {
+        try {
+          var seen = sessionStorage.getItem('lorenz-seen');
+          var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (seen || reducedMotion) {
+            document.documentElement.classList.add('ready');
+          }
+        } catch (e) {
+          // On exception (e.g. storage blocked), skip loader and go straight to ready
+          document.documentElement.classList.add('ready');
+        }
+      })();
+    </script>
+
+    <!-- No-JS fallback: make all reveal elements visible without JS -->
+    <noscript>
+      <style>
+        .reveal,
+        .scroll-reveal {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+
+  <body>
+    <Loader />
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- IntersectionObserver for .scroll-reveal elements -->
+    <script>
+      (function () {
+        var elements = document.querySelectorAll('.scroll-reveal');
+        if (!elements.length) return;
+
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        elements.forEach(function (el) {
+          observer.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>
