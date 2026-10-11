@@ -1,227 +1,285 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import ProjectCard from "../components/ProjectCard.astro";
+import fs from "node:fs";
 import { projects } from "../data/projects.js";
 
-const featured = projects.filter((p) => p.featured);
+// Drop a square-ish photo at public/me.jpg and it appears in the header.
+const hasPhoto = fs.existsSync("public/me.jpg");
+const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
 ---
 
-<BaseLayout title="Home" description="Eric Xu - Digital Portfolio">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eric Xu</title>
+    <meta name="description" content="Eric Xu - M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-  <!-- HERO -->
-  <section class="section hero-section">
-    <div class="container">
-      <h1 class="hero-name" aria-label="Eric Xu">
-        <span class="hero-line reveal" style="--reveal-delay: 0s" aria-hidden="true">ERIC</span>
-        <span class="hero-line hero-xu reveal" style="--reveal-delay: 0.1s" aria-hidden="true">XU</span>
-      </h1>
-      <p class="tagline reveal" style="--reveal-delay: 0.2s">
-        Applied mathematics at UC Santa Cruz. Scientific machine learning, GPU computing, and dynamical systems.
-      </p>
-      <div class="hero-ctas reveal" style="--reveal-delay: 0.3s">
-        <a href="/recruiters" class="btn btn--accent">For recruiters</a>
-        <a href="/research" class="btn">Research</a>
-      </div>
-    </div>
-  </section>
+  <body>
+    <main>
+      <header class="intro">
+        {hasPhoto && <img class="photo" src="/me.jpg" alt="Eric Xu" width="160" height="160" />}
+        <div>
+          <h1>Eric Xu</h1>
+          <p class="contact">
+            M.S. student, Scientific Computing and Applied Mathematics<br />
+            University of California, Santa Cruz<br />
+            Email: ericxu1070[at]gmail[dot]com or exu23[at]ucsc[dot]edu<br />
+            <a href="https://github.com/ericxu1070">GitHub</a> ·
+            <a href="https://linkedin.com/in/exu06">LinkedIn</a> ·
+            <a href="/resume.pdf">Resume (PDF)</a>
+          </p>
+        </div>
+      </header>
 
-  <!-- ABOUT -->
-  <section class="section scroll-reveal">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">About</span>
-      </div>
-      <!-- PLACEHOLDER: Eric to replace this factual stub with a personal bio in his own voice -->
-      <div class="about-body">
+      <section>
+        <h2>Brief Bio</h2>
         <p>
-          
+          I am an M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz. I graduated
+          from UC Santa Cruz with a B.S. in Applied Mathematics in 2026, with Highest Honors in the Major. I am a
+          researcher in the
+          TACS Lab, advised by Prof. Ashesh Chattopadhyay, working on
+          machine learning for extreme weather prediction. My interests are scientific machine learning, GPU
+          computing, and dynamical systems.
         </p>
-        <p class="about-stub">A fuller bio is coming soon.</p>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- SELECTED WORK -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Selected work</span>
-      </div>
-      <div class="projects-grid">
-        {featured.map((project, i) => (
-          <div class="scroll-reveal" style={`--reveal-delay: ${i * 0.1}s`}>
-            <ProjectCard project={project} />
-          </div>
-        ))}
-      </div>
-      <div class="all-projects-link">
-        <a href="/projects" class="mono-link">All projects -&gt;</a>
-      </div>
-    </div>
-  </section>
+      <section>
+        <h2>Research</h2>
+        <ul>
+          <li>
+            <strong>Undergraduate Researcher, TACS Lab</strong> <span class="muted">(Sep 2025 - present)</span><br />
+            Developing an ML pipeline for "grey swan" tropical cyclone prediction, coupling a GraphCast global
+            weather model with super-resolution downscaling to HRRR (~3 km) resolution. Large-scale training and
+            inference on NCAR Derecho and NERSC Perlmutter via SLURM and PBS.
+          </li>
+        </ul>
+        <p class="muted">
+          Interests: scientific machine learning and data assimilation; machine learning for weather and climate;
+          dynamical systems and numerical methods.
+        </p>
+      </section>
 
-  <!-- NOTES -->
-  <section class="section scroll-reveal">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Notes</span>
-      </div>
-      <p class="notes-standfirst">
-        Working notes on things I want to understand well enough to explain.
-      </p>
-      <nav class="notes-topics" aria-label="Notes">
-        <a href="/notes" class="topic-link topic-link--1">Notes</a>
-      </nav>
-    </div>
-  </section>
+      <section>
+        <h2>Projects</h2>
+        <ul>
+          {projects.map((p) => (
+            <li>
+              <strong>{p.title}</strong> <span class="muted">({p.year})</span>
+              {p.repo && <> [<a href={p.repo}>code</a>]</>}
+              <br />
+              {p.description}
+            </li>
+          ))}
+        </ul>
+      </section>
 
-</BaseLayout>
+      <section>
+        <h2>Education</h2>
+        <ul>
+          <li>
+            <strong>M.S. Scientific Computing and Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2026 - 2027)</span>
+          </li>
+          <li>
+            <strong>B.S. Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2024 - 2026)</span><br />
+            Highest Honors in the Major. GPA 3.77 / 4.00. Dean's Honors, 4 quarters. Graduate coursework:
+            AM 224, AM 234, AM 261, STAT 266A.
+          </li>
+        </ul>
+      </section>
 
-<style>
-  /* HERO */
-  .hero-section {
-    padding-top: clamp(72px, 12vw, 128px);
+      <section>
+        <h2>Teaching</h2>
+        <ul>
+          <li>
+            <strong>Teaching Assistant</strong>, Baskin School of Engineering <span class="muted">(Fall 2026)</span><br />
+            AM 11A Differential Calculus for Economics; AM 20 Ordinary Differential Equations.
+          </li>
+          <li>
+            <strong>Tutor and Reader</strong>, Baskin School of Engineering <span class="muted">(Fall 2025 - Spring 2026)</span><br />
+            AM 10 Mathematical Methods I (Linear Algebra), 3 consecutive quarters. Reader for CSE 16 Applied
+            Discrete Mathematics; tutor for MATH 19B Calculus II.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Skills</h2>
+        <p>
+          <strong>Programming:</strong> Python, Triton, MATLAB, R, Bash<br />
+          <strong>ML and scientific computing:</strong> PyTorch, JAX, NumPy<br />
+          <strong>HPC and tools:</strong> SLURM, PBS, Linux, Git, SSH
+        </p>
+      </section>
+
+      <section>
+        <h2>Coursework</h2>
+        <p>
+          <strong>Applied Mathematics:</strong> Linear Algebra (AM 10), Mathematical Methods II-III (AM 20/100),
+          Calculus III (AM 30), Intro to PDEs (AM 112), Dynamical Systems (AM 114), Applied Dynamical Systems
+          (AM 224), Mathematical Modeling I-II (AM 170A/B), Scientific Computing (AM 129), Computational Methods
+          (AM 147), GPU Programming (AM 148), Scientific Machine Learning (AM 261), ML and AI in Genomics (AM 234).
+        </p>
+        <p>
+          <strong>Statistics and Computer Science:</strong> Probability and Statistics (CSE 107), Classical and
+          Bayesian Inference (STAT 132), Applied Discrete Mathematics (CSE 16), Computer Systems and Assembly
+          (CSE 12), Financial Mathematics (MATH 114), Introduction to R (STAT 266A).
+        </p>
+      </section>
+
+      <footer class="muted">Last updated {lastUpdated}.</footer>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #fdfdfb;
+    --ink: #1f2328;
+    --muted: #5f6670;
+    --rule: #dcdcd6;
+    --link: #1a4fa0;
+    --link-visited: #5b3a9a;
+    color-scheme: light dark;
   }
 
-  .hero-name {
-    display: block;
-    margin: 0 0 28px 0;
-    line-height: 0.95;
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181c;
+      --ink: #e4e4e0;
+      --muted: #9aa0a8;
+      --rule: #33363c;
+      --link: #8ab4f8;
+      --link-visited: #c3a6f2;
+    }
   }
 
-  .hero-line {
-    display: block;
-    font-family: "Archivo", sans-serif;
-    font-size: clamp(56px, 11vw, 128px);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    color: var(--ink);
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 
-  .hero-xu {
-    color: var(--vermilion);
-  }
-
-  .tagline {
-    font-family: "Instrument Sans", sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1.55;
-    max-width: 560px;
-    color: var(--ink);
-    margin: 0 0 40px 0;
-  }
-
-  .hero-ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  /* ABOUT */
-  .about-body {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-width: 680px;
-  }
-
-  .about-body p {
-    font-family: "Instrument Sans", sans-serif;
-    font-size: 17px;
-    line-height: 1.65;
-    color: var(--ink);
+  body {
     margin: 0;
-  }
-
-  .about-stub {
-    font-family: "IBM Plex Mono", monospace !important;
-    font-size: 13px !important;
-    color: var(--muted) !important;
-  }
-
-  /* SELECTED WORK */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    margin-bottom: 32px;
-  }
-
-  .all-projects-link {
-    margin-top: 8px;
-  }
-
-  .mono-link {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 14px;
-    font-weight: 500;
+    background: var(--bg);
     color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 2px;
-    transition: color 0.15s ease;
-  }
-
-  .mono-link:hover {
-    color: var(--vermilion);
-    text-decoration-color: var(--vermilion);
-  }
-
-  .mono-link:focus-visible {
-    outline: 3px solid var(--ultramarine);
-    outline-offset: 2px;
-  }
-
-  /* NOTES */
-  .notes-standfirst {
-    font-family: "Instrument Sans", sans-serif;
-    font-size: 17px;
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+    font-size: 18px;
     line-height: 1.6;
-    color: var(--ink);
-    margin-bottom: 24px;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .notes-topics {
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 16px 40px;
+  }
+
+  a {
+    color: var(--link);
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+
+  a:visited {
+    color: var(--link-visited);
+  }
+
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0 0 10px;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  section {
+    margin-top: 36px;
+  }
+
+  p {
+    margin: 0 0 12px;
+  }
+
+  ul {
+    margin: 0 0 12px;
+    padding-left: 1.2em;
+  }
+
+  li {
+    margin-bottom: 12px;
+  }
+
+  .intro {
     display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
+    gap: 28px;
+    align-items: center;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
   }
 
-  .topic-link {
-    font-family: "Archivo", sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--ink);
-    text-decoration: none;
-    border: 3px solid var(--ink);
-    background: var(--card);
-    padding: 10px 20px;
-    transition: background 0.15s ease, color 0.15s ease;
+  .photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
   }
 
-  .topic-link:focus-visible {
-    outline: 3px solid var(--ultramarine);
-    outline-offset: 2px;
+  .contact {
+    margin: 0;
+    line-height: 1.55;
   }
 
-  /* alternate hover colors per contract */
-  .topic-link--1:hover {
-    background: var(--ultramarine);
-    color: var(--paper);
+  .muted {
+    color: var(--muted);
   }
 
-  .topic-link--2:hover {
-    background: var(--vermilion);
-    color: var(--paper);
+  footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    font-size: 0.85rem;
   }
 
-  .topic-link--3:hover {
-    background: var(--ultramarine);
-    color: var(--paper);
+  @media (max-width: 540px) {
+    body {
+      font-size: 17px;
+    }
+
+    main {
+      padding-top: 32px;
+    }
+
+    .intro {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .photo {
+      width: 128px;
+      height: 128px;
+    }
   }
 </style>
