@@ -27,4 +27,11 @@ export const projects = [
       "Capstone project for AM 170A. Compares a physics-only controller, pure reinforcement learning, and a hybrid controller (analytic prior plus learned residual) for point-to-point drone flight under stochastic wind, measuring total energy use and mission failure rate.",
     repo: null,
   },
+  {
+    title: "Council of Sumer",
+    year: "2026",
+    description:
+      "UCSC AI Hackathon @ SF Tech Week. A multi-agent take on the 1968 city-management game Hamurabi: five LLM advisors with conflicting goals run as separate processes, debate over AGNTCY SLIM, and vote on each year's plan, with runoffs and human tie-breaking on deadlock. Across 16 seeded cities, the council kept 73% of reigns versus 56% for a single LLM and starved 27% fewer people.",
+    repo: "https://github.com/ericxu1070/council-of-sumer",
+  },
 ];

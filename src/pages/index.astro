@@ -1,6 +1,8 @@
 ---
 import fs from "node:fs";
 import { projects } from "../data/projects.js";
+import { papers } from "../data/papers.js";
+import { coursework } from "../data/coursework.js";
 
 // Drop a square-ish photo at public/me.jpg and it appears in the header.
 const hasPhoto = fs.existsSync("public/me.jpg");
@@ -32,7 +34,8 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
           <p class="contact">
             M.S. student, Scientific Computing and Applied Mathematics<br />
             University of California, Santa Cruz<br />
-            Email: ericxu1070[at]gmail[dot]com or exu23[at]ucsc[dot]edu<br />
+            Email: <span class="nowrap">ericxu1070[at]gmail[dot]com</span>
+            <span class="nowrap">or exu23[at]ucsc[dot]edu</span><br />
             <a href="https://github.com/ericxu1070">GitHub</a> ·
             <a href="https://linkedin.com/in/exu06">LinkedIn</a> ·
             <a href="/resume.pdf">Resume (PDF)</a>
@@ -50,6 +53,24 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
           machine learning for extreme weather prediction. My interests are scientific machine learning, GPU
           computing, and dynamical systems.
         </p>
+      </section>
+
+      <section>
+        <h2>Papers and Preprints</h2>
+        {papers.length === 0 ? (
+          <p class="muted">In preparation.</p>
+        ) : (
+          <ul>
+            {papers.map((p) => (
+              <li>
+                <strong>{p.title}</strong><br />
+                {p.authors}<br />
+                <em>{p.venue}</em>, {p.year}
+                {p.links?.map((l) => <> [<a href={l.url}>{l.label}</a>]</>)}
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <section>
@@ -114,25 +135,31 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
       <section>
         <h2>Skills</h2>
         <p>
-          <strong>Programming:</strong> Python, Triton, MATLAB, R, Bash<br />
-          <strong>ML and scientific computing:</strong> PyTorch, JAX, NumPy<br />
-          <strong>HPC and tools:</strong> SLURM, PBS, Linux, Git, SSH
+          <strong>Programming:</strong> Python, C++, MATLAB, R, Bash, RISC-V assembly<br />
+          <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, Triton (GPU kernels)<br />
+          <strong>HPC and tools:</strong> SLURM, PBS, Linux, Git, SSH<br />
+          <strong>Mathematical areas:</strong> Linear algebra, differential equations, PDEs, dynamical systems,
+          numerical methods, deep learning
         </p>
       </section>
 
       <section>
         <h2>Coursework</h2>
-        <p>
-          <strong>Applied Mathematics:</strong> Linear Algebra (AM 10), Mathematical Methods II-III (AM 20/100),
-          Calculus III (AM 30), Intro to PDEs (AM 112), Dynamical Systems (AM 114), Applied Dynamical Systems
-          (AM 224), Mathematical Modeling I-II (AM 170A/B), Scientific Computing (AM 129), Computational Methods
-          (AM 147), GPU Programming (AM 148), Scientific Machine Learning (AM 261), ML and AI in Genomics (AM 234).
-        </p>
-        <p>
-          <strong>Statistics and Computer Science:</strong> Probability and Statistics (CSE 107), Classical and
-          Bayesian Inference (STAT 132), Applied Discrete Mathematics (CSE 16), Computer Systems and Assembly
-          (CSE 12), Financial Mathematics (MATH 114), Introduction to R (STAT 266A).
-        </p>
+        {coursework.map((g) => (
+          <>
+            <h3>{g.group}</h3>
+            <table class="courses">
+              <tbody>
+                {g.courses.map(([code, name]) => (
+                  <tr>
+                    <td class="muted">{code}</td>
+                    <td>{name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        ))}
       </section>
 
       <footer class="muted">Last updated {lastUpdated}.</footer>
@@ -205,6 +232,32 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
     margin: 0 0 10px;
   }
 
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 20px 0 6px;
+  }
+
+  h2 + h3 {
+    margin-top: 0;
+  }
+
+  .courses {
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+
+  .courses td {
+    padding: 2px 0;
+    vertical-align: top;
+  }
+
+  .courses td:first-child {
+    width: 7.5em;
+    padding-right: 16px;
+    white-space: nowrap;
+  }
+
   h2 {
     font-size: 1.3rem;
     font-weight: 600;
@@ -249,6 +302,10 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
   .contact {
     margin: 0;
     line-height: 1.55;
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 
   .muted {
