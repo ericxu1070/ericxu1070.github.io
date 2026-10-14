@@ -21,13 +21,6 @@ export const projects = [
     repo: "https://github.com/ericxu1070/invobs-data-assimilation",
   },
   {
-    title: "Reinforcement Learning Drone",
-    year: "2026",
-    description:
-      "Capstone project for AM 170A. Compares a physics-only controller, pure reinforcement learning, and a hybrid controller (analytic prior plus learned residual) for point-to-point drone flight under stochastic wind, measuring total energy use and mission failure rate.",
-    repo: null,
-  },
-  {
     title: "Council of Sumer",
     year: "2026",
     description:
