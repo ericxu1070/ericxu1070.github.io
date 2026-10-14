@@ -1,16 +1,16 @@
 export const projects = [
   {
-    title: "Grey-Swan Tropical Cyclone Prediction",
+    title: "Subseasonal Extreme Temperature Forecasting",
     year: "2026",
     description:
-      "TACS Lab research project. ML pipeline coupling a AI-based global weather model with super-resolution downscaling to HRRR (~3 km) resolution; trained and evaluated on NCAR Derecho and other HPC clusters via SLURM and PBS schedulers.",
+      "TACS Lab research project. AI ensemble pipeline that forecasts heat waves and cold outbreaks three weeks ahead; ensemble members reached the observed extreme in 6 of 7 test cases, versus 0 of 7 for NOAA's CFSv2. Includes a diffusion model that downscales ERA5 to HRRR (~3 km) resolution.",
     repo: "https://github.com/ericxu1070/S2S_ExtremeWeather",
   },
   {
     title: "Cross-Species Transfer Learning with DeepSEA",
     year: "2026",
     description:
-      "Final project for AM 234. Transfers the DeepSEA genomic sequence model from human to mouse ENCODE data, with zero-shot evaluation and baseline pipelines for benchmarking cross-species generalization.",
+      "Transfers the DeepSEA genomic sequence model from human to mouse ENCODE data, with zero-shot evaluation and baseline pipelines for benchmarking cross-species generalization.",
     repo: "https://github.com/ericxu1070/DeepSEA-Transfer-Learning",
   },
   {
