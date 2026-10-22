@@ -1,342 +1,164 @@
 ---
 import fs from "node:fs";
+import Base from "../layouts/Base.astro";
 import { projects } from "../data/projects.js";
 import { papers } from "../data/papers.js";
 import { coursework } from "../data/coursework.js";
 
 // Drop a square-ish photo at public/me.jpg and it appears in the header.
 const hasPhoto = fs.existsSync("public/me.jpg");
+// Invisible to readers; lets search engines and AI agents identify who this site is about.
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Eric Xu",
+  url: Astro.site,
+  jobTitle: "M.S. student, Scientific Computing and Applied Mathematics",
+  affiliation: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
+  knowsAbout: ["Scientific machine learning", "Machine learning for weather and climate", "GPU computing", "Dynamical systems", "Data assimilation"],
+  sameAs: ["https://github.com/ericxu1070", "https://linkedin.com/in/exu06"],
+};
 const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eric Xu</title>
-    <meta name="description" content="Eric Xu - M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz." />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;1,400&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+<Base description="Eric Xu - M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz.">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
+  <header class="intro">
+    {hasPhoto && <img class="photo" src="/me.jpg" alt="Eric Xu" width="160" height="160" />}
+    <div>
+      <h1>Eric Xu</h1>
+      <p class="contact">
+        M.S. student, Scientific Computing and Applied Mathematics<br />
+        University of California, Santa Cruz<br />
+        Email: <span class="nowrap">ericxu1070[at]gmail[dot]com</span>
+        <span class="nowrap">or exu23[at]ucsc[dot]edu</span><br />
+        <a href="https://github.com/ericxu1070">GitHub</a> ·
+        <a href="https://linkedin.com/in/exu06">LinkedIn</a> ·
+        <a href="/resume.pdf">Resume (PDF)</a> ·
+        <a href="/blog">Blog</a>
+      </p>
+    </div>
+  </header>
 
-  <body>
-    <main>
-      <header class="intro">
-        {hasPhoto && <img class="photo" src="/me.jpg" alt="Eric Xu" width="160" height="160" />}
-        <div>
-          <h1>Eric Xu</h1>
-          <p class="contact">
-            M.S. student, Scientific Computing and Applied Mathematics<br />
-            University of California, Santa Cruz<br />
-            Email: <span class="nowrap">ericxu1070[at]gmail[dot]com</span>
-            <span class="nowrap">or exu23[at]ucsc[dot]edu</span><br />
-            <a href="https://github.com/ericxu1070">GitHub</a> ·
-            <a href="https://linkedin.com/in/exu06">LinkedIn</a> ·
-            <a href="/resume.pdf">Resume (PDF)</a>
-          </p>
-        </div>
-      </header>
+  <section>
+    <h2>Brief Bio</h2>
+    <p>
+      I am an M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz. I graduated
+      from UC Santa Cruz with a B.S. in Applied Mathematics in 2026, with Highest Honors in the Major. I am a
+      researcher in the
+      TACS Lab, advised by Prof. Ashesh Chattopadhyay, working on
+      machine learning for extreme weather prediction. My interests are scientific machine learning, GPU
+      computing, and dynamical systems.
+    </p>
+  </section>
 
-      <section>
-        <h2>Brief Bio</h2>
-        <p>
-          I am an M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz. I graduated
-          from UC Santa Cruz with a B.S. in Applied Mathematics in 2026, with Highest Honors in the Major. I am a
-          researcher in the
-          TACS Lab, advised by Prof. Ashesh Chattopadhyay, working on
-          machine learning for extreme weather prediction. My interests are scientific machine learning, GPU
-          computing, and dynamical systems.
-        </p>
-      </section>
-
-      <section>
-        <h2>Papers and Preprints</h2>
-        {papers.length === 0 ? (
-          <p class="muted">In preparation.</p>
-        ) : (
-          <ul>
-            {papers.map((p) => (
-              <li>
-                <strong>{p.title}</strong><br />
-                {p.authors}<br />
-                <em>{p.venue}</em>, {p.year}
-                {p.links?.map((l) => <> [<a href={l.url}>{l.label}</a>]</>)}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-
-      <section>
-        <h2>Research</h2>
-        <ul>
+  <section>
+    <h2>Papers and Preprints</h2>
+    {papers.length === 0 ? (
+      <p class="muted">In preparation.</p>
+    ) : (
+      <ul>
+        {papers.map((p) => (
           <li>
-            <strong>Undergraduate Researcher, TACS Lab</strong> <span class="muted">(Sep 2025 - present)</span><br />
-            Building AI ensemble forecasts of heat waves and cold outbreaks three weeks ahead, combining AI global
-            weather models with rare-event resampling, plus diffusion-based downscaling to HRRR (~3 km) resolution.
-            Large-scale training and inference on cloud GPUs and NCAR Derecho via SLURM and PBS.
+            <strong>{p.title}</strong><br />
+            {p.authors}<br />
+            <em>{p.venue}</em>, {p.year}
+            {p.links?.map((l) => <> [<a href={l.url}>{l.label}</a>]</>)}
           </li>
-        </ul>
-        <p class="muted">
-          Interests: scientific machine learning and data assimilation; machine learning for weather and climate;
-          dynamical systems and numerical methods.
-        </p>
-      </section>
-
-      <section>
-        <h2>Projects</h2>
-        <ul>
-          {projects.map((p) => (
-            <li>
-              <strong>{p.title}</strong> <span class="muted">({p.year})</span>
-              {p.repo && <> [<a href={p.repo}>code</a>]</>}
-              <br />
-              {p.description}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2>Education</h2>
-        <ul>
-          <li>
-            <strong>M.S. Scientific Computing and Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2026 - 2027)</span>
-          </li>
-          <li>
-            <strong>B.S. Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2024 - 2026)</span><br />
-            Highest Honors in the Major. GPA 3.77 / 4.00. Dean's Honors, 4 quarters. Graduate coursework:
-            AM 224, AM 234, AM 261, STAT 266A.
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Teaching</h2>
-        <ul>
-          <li>
-            <strong>Teaching Assistant</strong>, Baskin School of Engineering <span class="muted">(Fall 2026)</span><br />
-            AM 11A Differential Calculus for Economics; AM 20 Ordinary Differential Equations.
-          </li>
-          <li>
-            <strong>Tutor and Reader</strong>, Baskin School of Engineering <span class="muted">(Fall 2025 - Spring 2026)</span><br />
-            AM 10 Mathematical Methods I (Linear Algebra), 3 consecutive quarters. Reader for CSE 16 Applied
-            Discrete Mathematics; tutor for MATH 19B Calculus II.
-          </li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>Skills</h2>
-        <p>
-          <strong>Programming:</strong> Python, C++, MATLAB, R, Bash, RISC-V assembly<br />
-          <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, Triton (GPU kernels)<br />
-          <strong>HPC and tools:</strong> SLURM, PBS, Linux, Git, SSH<br />
-          <strong>Mathematical areas:</strong> Linear algebra, differential equations, PDEs, dynamical systems,
-          numerical methods, deep learning
-        </p>
-      </section>
-
-      <section>
-        <h2>Coursework</h2>
-        {coursework.map((g) => (
-          <>
-            <h3>{g.group}</h3>
-            <table class="courses">
-              <tbody>
-                {g.courses.map(([code, name]) => (
-                  <tr>
-                    <td class="muted">{code}</td>
-                    <td>{name}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
         ))}
-      </section>
+      </ul>
+    )}
+  </section>
 
-      <footer class="muted">Last updated {lastUpdated}.</footer>
-    </main>
-  </body>
-</html>
+  <section>
+    <h2>Research</h2>
+    <ul>
+      <li>
+        <strong>Undergraduate Researcher, TACS Lab</strong> <span class="muted">(Sep 2025 - present)</span><br />
+        Building AI ensemble forecasts of heat waves and cold outbreaks three weeks ahead, combining AI global
+        weather models with rare-event resampling, plus diffusion-based downscaling to HRRR (~3 km) resolution.
+        Large-scale training and inference on cloud GPUs and NCAR Derecho via SLURM and PBS.
+      </li>
+    </ul>
+    <p class="muted">
+      Interests: scientific machine learning and data assimilation; machine learning for weather and climate;
+      dynamical systems and numerical methods.
+    </p>
+  </section>
 
-<style is:global>
-  :root {
-    --bg: #fdfdfb;
-    --ink: #1f2328;
-    --muted: #5f6670;
-    --rule: #dcdcd6;
-    --link: #1a4fa0;
-    --link-visited: #5b3a9a;
-    color-scheme: light dark;
-  }
+  <section>
+    <h2>Projects</h2>
+    <ul>
+      {projects.map((p) => (
+        <li>
+          <strong>{p.title}</strong> <span class="muted">({p.year})</span>
+          {p.repo && <> [<a href={p.repo}>code</a>]</>}
+          <br />
+          {p.description}
+        </li>
+      ))}
+    </ul>
+  </section>
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #16181c;
-      --ink: #e4e4e0;
-      --muted: #9aa0a8;
-      --rule: #33363c;
-      --link: #8ab4f8;
-      --link-visited: #c3a6f2;
-    }
-  }
+  <section>
+    <h2>Education</h2>
+    <ul>
+      <li>
+        <strong>M.S. Scientific Computing and Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2026 - 2027)</span>
+      </li>
+      <li>
+        <strong>B.S. Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2024 - 2026)</span><br />
+        Highest Honors in the Major. GPA 3.77 / 4.00. Dean's Honors, 4 quarters. Graduate coursework:
+        AM 224, AM 234, AM 261, STAT 266A.
+      </li>
+    </ul>
+  </section>
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
+  <section>
+    <h2>Teaching</h2>
+    <ul>
+      <li>
+        <strong>Teaching Assistant</strong>, Baskin School of Engineering <span class="muted">(Fall 2026)</span><br />
+        AM 11A Differential Calculus for Economics; AM 20 Ordinary Differential Equations.
+      </li>
+      <li>
+        <strong>Tutor and Reader</strong>, Baskin School of Engineering <span class="muted">(Fall 2025 - Spring 2026)</span><br />
+        AM 10 Mathematical Methods I (Linear Algebra), 3 consecutive quarters. Reader for CSE 16 Applied
+        Discrete Mathematics; tutor for MATH 19B Calculus II.
+      </li>
+    </ul>
+  </section>
 
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    font-size: 18px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+  <section>
+    <h2>Skills</h2>
+    <p>
+      <strong>Programming:</strong> Python, C++, MATLAB, R, Bash, RISC-V assembly<br />
+      <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, Triton (GPU kernels)<br />
+      <strong>HPC and tools:</strong> SLURM, PBS, Linux, Git, SSH<br />
+      <strong>Mathematical areas:</strong> Linear algebra, differential equations, PDEs, dynamical systems,
+      numerical methods, deep learning
+    </p>
+  </section>
 
-  main {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 56px 16px 40px;
-  }
+  <section>
+    <h2>Coursework</h2>
+    {coursework.map((g) => (
+      <>
+        <h3>{g.group}</h3>
+        <table class="courses">
+          <tbody>
+            {g.courses.map(([code, name]) => (
+              <tr>
+                <td class="muted">{code}</td>
+                <td>{name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    ))}
+  </section>
 
-  a {
-    color: var(--link);
-    text-underline-offset: 2px;
-    text-decoration-thickness: 1px;
-  }
-
-  a:visited {
-    color: var(--link-visited);
-  }
-
-  a:hover {
-    text-decoration-thickness: 2px;
-  }
-
-  h1 {
-    font-size: 2.1rem;
-    font-weight: 600;
-    line-height: 1.15;
-    margin: 0 0 10px;
-  }
-
-  h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 20px 0 6px;
-  }
-
-  h2 + h3 {
-    margin-top: 0;
-  }
-
-  .courses {
-    border-collapse: collapse;
-    margin-bottom: 8px;
-  }
-
-  .courses td {
-    padding: 2px 0;
-    vertical-align: top;
-  }
-
-  .courses td:first-child {
-    width: 7.5em;
-    padding-right: 16px;
-    white-space: nowrap;
-  }
-
-  h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0 0 12px;
-    padding-bottom: 4px;
-    border-bottom: 1px dashed var(--rule);
-  }
-
-  section {
-    margin-top: 36px;
-  }
-
-  p {
-    margin: 0 0 12px;
-  }
-
-  ul {
-    margin: 0 0 12px;
-    padding-left: 1.2em;
-  }
-
-  li {
-    margin-bottom: 12px;
-  }
-
-  .intro {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .photo {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  .contact {
-    margin: 0;
-    line-height: 1.55;
-  }
-
-  .nowrap {
-    white-space: nowrap;
-  }
-
-  .muted {
-    color: var(--muted);
-  }
-
-  footer {
-    margin-top: 48px;
-    padding-top: 16px;
-    border-top: 1px solid var(--rule);
-    font-size: 0.85rem;
-  }
-
-  @media (max-width: 540px) {
-    body {
-      font-size: 17px;
-    }
-
-    main {
-      padding-top: 32px;
-    }
-
-    .intro {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .photo {
-      width: 128px;
-      height: 128px;
-    }
-  }
-</style>
+  <footer class="muted">Last updated {lastUpdated}.</footer>
+</Base>

@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap: https://ericxu1070.github.io/sitemap-index.xml
-# Note: no sitemap integration is installed yet. Uncomment the line above
-# after adding @astrojs/sitemap to astro.config.mjs.
+Sitemap: https://ericxu1070.github.io/sitemap-index.xml

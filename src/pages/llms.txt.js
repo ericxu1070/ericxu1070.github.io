@@ -1,0 +1,59 @@
+import { projects } from "../data/projects.js";
+import { papers } from "../data/papers.js";
+import { coursework } from "../data/coursework.js";
+
+// Plain-text summary for LLM agents (llmstxt.org); linked only from <head>, so readers never see it.
+// Hand-written sections mirror public/resume.pdf, which some agents cannot read; update both together.
+export function GET() {
+  const lines = [
+    "# Eric Xu",
+    "",
+    "> M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz (B.S. Applied Mathematics 2026, Highest Honors in the Major). Researcher in the TACS Lab, advised by Prof. Ashesh Chattopadhyay, working on machine learning for extreme weather prediction.",
+    "",
+    "Interests: scientific machine learning, data assimilation, ML for weather and climate, GPU computing, dynamical systems, numerical methods.",
+    "Contact: ericxu1070[at]gmail[dot]com, exu23[at]ucsc[dot]edu",
+    "",
+    "## Links",
+    "- [Homepage](https://ericxu1070.github.io/)",
+    "- [Resume (PDF)](https://ericxu1070.github.io/resume.pdf)",
+    "- [GitHub](https://github.com/ericxu1070)",
+    "- [LinkedIn](https://linkedin.com/in/exu06)",
+    "",
+    "## Education",
+    "- M.S. Scientific Computing and Applied Mathematics, UC Santa Cruz (2026 - 2027)",
+    "- B.S. Applied Mathematics, UC Santa Cruz (2024 - 2026). Highest Honors in the Major, GPA 3.77/4.00, Dean's Honors 4 quarters. Graduate coursework: Scientific Machine Learning, Applied Dynamical Systems, Machine Learning and AI in Genomics, Introduction to R.",
+    "",
+    "## Research",
+    "Undergraduate Researcher, TACS Lab, UC Santa Cruz (Sep 2025 - present). Advisor: Prof. Ashesh Chattopadhyay.",
+    "- Built an AI ensemble pipeline (GenCast + FourCastNet3, rare-event resampling) for 3-week heat wave and cold outbreak forecasts; ensemble members reached the observed extreme in 6 of 7 cases vs 0 of 7 for NOAA CFSv2.",
+    "- Benchmarked against raw CFSv2 over 42 cases: lowered closest-member error from 2.92 K to 2.28 K (better in 38 of 42) and raised the 7-day critical success index from 0.30 to 0.56.",
+    "- Ran each forecast in about 8 hours on one 8xH100 node (~$156), an estimated 5-23x cheaper than direct sampling; scheduled jobs with SLURM on cloud H100s and PBS on NCAR Derecho.",
+    "- Building a diffusion model that downscales ERA5 (1 degree) to HRRR (3 km) temperature and wind, trained on 16,000 paired snapshots from 2015-2025.",
+    "",
+    "## Papers",
+    ...(papers.length ? papers.map((p) => `- ${p.title}. ${p.authors}. ${p.venue}, ${p.year}.`) : ["- In preparation."]),
+    "",
+    "## Projects",
+    ...projects.map((p) => `- [${p.title}](${p.repo ?? "https://ericxu1070.github.io/"}) (${p.year}): ${p.description}`),
+    "",
+    "### Project results",
+    "- Cross-Species Transfer Learning with DeepSEA (PyTorch, scikit-learn): fine-tuned the human-trained DeepSEA CNN on ~1M mouse ENCODE DNA windows; beat training from scratch on 115 of 133 chromatin features (median AUROC 0.877 vs 0.865); best validation loss in 5 epochs vs 12 from scratch; zero-shot transfer is near chance (AUROC 0.50), so fine-tuning is required.",
+    "- 4D-Var Data Assimilation with a Learned Inverse Operator (PyTorch, L-BFGS): senior capstone, team of 5; reimplemented a Google Research method; trained a CNN inverse observation operator on 32,000 Lorenz-96 trajectories; cut state-estimation RMSE by 38-75% vs standard 4D-Var across noise levels and reached ~3x lower optimization cost on 2D Kolmogorov flow.",
+    "- Council of Sumer (Python, FastAPI, LLM agents, OpenTelemetry): hackathon, team of 3; wrote the deliberation engine, tracing, and benchmark.",
+    "",
+    "## Teaching",
+    "- Teaching Assistant, Baskin School of Engineering, UC Santa Cruz (Fall 2026 - present): AM 11A Differential Calculus for Economics; AM 20 Ordinary Differential Equations.",
+    "- Tutor and Reader (Sep 2025 - Jun 2026): AM 10 Linear Algebra tutor and reader, rehired 3 consecutive quarters; reader for CSE 16 Applied Discrete Mathematics; tutor for MATH 19B Calculus II.",
+    "",
+    "## Skills",
+    "- Programming: Python, C++, MATLAB, R, Bash, RISC-V assembly",
+    "- ML and scientific computing: PyTorch, JAX, NumPy, Triton (GPU kernels)",
+    "- HPC and tools: SLURM, PBS, Linux, Git, SSH",
+    "- Mathematics: linear algebra, ODEs and PDEs, dynamical systems, numerical methods, probability and statistics",
+    "",
+    "## Coursework",
+    ...coursework.map((g) => `- ${g.group}: ${g.courses.map(([c, n]) => `${c} ${n}`).join("; ")}`),
+    "",
+  ];
+  return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+}

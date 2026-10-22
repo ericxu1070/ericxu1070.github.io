@@ -1,0 +1,211 @@
+---
+const { title = "Eric Xu", description } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL("/me.jpg", Astro.site)} />
+    <meta property="og:image:alt" content="Eric Xu" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="text/plain" title="LLM-readable summary" href="/llms.txt" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head" />
+  </head>
+
+  <body>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #fdfdfb;
+    --ink: #1f2328;
+    --muted: #5f6670;
+    --rule: #dcdcd6;
+    --link: #1a4fa0;
+    --link-visited: #5b3a9a;
+    color-scheme: light dark;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181c;
+      --ink: #e4e4e0;
+      --muted: #9aa0a8;
+      --rule: #33363c;
+      --link: #8ab4f8;
+      --link-visited: #c3a6f2;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 16px 40px;
+  }
+
+  a {
+    color: var(--link);
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+  }
+
+  a:visited {
+    color: var(--link-visited);
+  }
+
+  a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1.15;
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 20px 0 6px;
+  }
+
+  h2 + h3 {
+    margin-top: 0;
+  }
+
+  .courses {
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+
+  .courses td {
+    padding: 2px 0;
+    vertical-align: top;
+  }
+
+  .courses td:first-child {
+    width: 7.5em;
+    padding-right: 16px;
+    white-space: nowrap;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  section {
+    margin-top: 36px;
+  }
+
+  p {
+    margin: 0 0 12px;
+  }
+
+  ul {
+    margin: 0 0 12px;
+    padding-left: 1.2em;
+  }
+
+  li {
+    margin-bottom: 12px;
+  }
+
+  .intro {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .photo {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .contact {
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  footer {
+    margin-top: 48px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 540px) {
+    body {
+      font-size: 17px;
+    }
+
+    main {
+      padding-top: 32px;
+    }
+
+    .intro {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .photo {
+      width: 128px;
+      height: 128px;
+    }
+  }
+</style>
