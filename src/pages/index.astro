@@ -14,7 +14,10 @@ const person = {
   name: "Eric Xu",
   url: Astro.site,
   jobTitle: "M.S. student, Scientific Computing and Applied Mathematics",
-  affiliation: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
+  affiliation: [
+    { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
+    { "@type": "Organization", name: "Vayuh.ai" },
+  ],
   alumniOf: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
   knowsAbout: ["Scientific machine learning", "Machine learning for weather and climate", "GPU computing", "Dynamical systems", "Data assimilation"],
   sameAs: ["https://github.com/ericxu1070", "https://linkedin.com/in/exu06"],
@@ -48,7 +51,7 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
       from UC Santa Cruz with a B.S. in Applied Mathematics in 2026, with Highest Honors in the Major. I am a
       researcher in the
       TACS Lab, advised by Prof. Ashesh Chattopadhyay, working on
-      machine learning for extreme weather prediction. My interests are scientific machine learning, GPU
+      machine learning for extreme weather prediction, and a part-time ML researcher at Vayuh.ai. My interests are scientific machine learning, GPU
       computing, and dynamical systems.
     </p>
   </section>
@@ -75,10 +78,15 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
     <h2>Research</h2>
     <ul>
       <li>
-        <strong>Undergraduate Researcher, TACS Lab</strong> <span class="muted">(Sep 2025 - present)</span><br />
+        <strong>Researcher, TACS Lab</strong> <span class="muted">(Sep 2025 - present)</span><br />
         Building AI ensemble forecasts of heat waves and cold outbreaks three weeks ahead, combining AI global
         weather models with rare-event resampling, plus diffusion-based downscaling to HRRR (~3 km) resolution.
         Large-scale training and inference on cloud GPUs and NCAR Derecho via SLURM and PBS.
+      </li>
+      <li>
+        <strong>ML Researcher (part-time), Vayuh.ai</strong> <span class="muted">(Jul 2026 - present)</span><br />
+        Multi-GPU training and inference experiments for subseasonal extreme-weather forecasting on cloud H100
+        nodes and NCAR Derecho.
       </li>
     </ul>
     <p class="muted">
@@ -134,8 +142,8 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
     <h2>Skills</h2>
     <p>
       <strong>Programming:</strong> Python, C++, MATLAB, R, Bash, RISC-V assembly<br />
-      <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, Triton (GPU kernels)<br />
-      <strong>HPC and tools:</strong> SLURM, PBS, Linux, Git, SSH<br />
+      <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, scikit-learn, Triton (GPU kernels)<br />
+      <strong>HPC and tools:</strong> SLURM, PBS, cloud H100 nodes, NCAR Derecho, Linux, Git, SSH<br />
       <strong>Mathematical areas:</strong> Linear algebra, differential equations, PDEs, dynamical systems,
       numerical methods, deep learning
     </p>
