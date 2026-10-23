@@ -22,11 +22,13 @@ const person = {
   knowsAbout: ["Scientific machine learning", "Machine learning for weather and climate", "GPU computing", "Dynamical systems", "Data assimilation"],
   sameAs: ["https://github.com/ericxu1070", "https://linkedin.com/in/exu06"],
 };
+const website = { "@context": "https://schema.org", "@type": "WebSite", name: "Eric Xu", url: Astro.site };
 const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
 ---
 
-<Base description="Eric Xu - M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz.">
+<Base title="Eric Xu | Scientific ML & Climate" description="Eric Xu - M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz.">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(website)} />
   <header class="intro">
     {hasPhoto && <img class="photo" src="/me.jpg" alt="Eric Xu" width="160" height="160" />}
     <div>
