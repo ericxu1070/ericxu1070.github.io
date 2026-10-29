@@ -1,30 +1,30 @@
 export const projects = [
   {
-    title: "Subseasonal Extreme Temperature Forecasting",
+    title: "Subseasonal Extreme Weather Forecasting",
     year: "2026",
     description:
-      "TACS Lab research project. An AI ensemble pipeline forecasts heat waves and cold outbreaks three weeks ahead. Ensemble members reached the observed extreme in 6 of 7 test cases, versus 0 of 7 for NOAA's CFSv2. The repo also has a diffusion model that downscales ERA5 to HRRR (~3 km) resolution.",
+      "TACS Lab research project. A batch pipeline starts AI weather-model ensembles weeks before past heat waves and cold outbreaks and checks whether they capture the observed extreme. Extreme precipitation is next.",
     repo: "https://github.com/ericxu1070/S2S_ExtremeWeather",
   },
   {
     title: "Cross-Species Transfer Learning with DeepSEA",
     year: "2026",
     description:
-      "Fine-tunes the human-trained DeepSEA genomic sequence model on mouse ENCODE data. Fine-tuning beat training from scratch on 115 of 133 chromatin features, while zero-shot transfer scored near chance (AUROC 0.50).",
+      "Fine-tunes the human-trained DeepSEA genomic sequence model on mouse ENCODE data. Fine-tuning beat training from scratch on most chromatin features, while zero-shot transfer scored near chance.",
     repo: "https://github.com/ericxu1070/DeepSEA-Transfer-Learning",
   },
   {
     title: "4D Variational Data Assimilation with AI",
     year: "2026",
     description:
-      "Capstone project for AM 170B. Reimplements and extends 4D-Var data assimilation in PyTorch with a learned inverse observation operator, tested on Lorenz-96 and Kolmogorov flow. On Lorenz-96 it cut state-estimation error by 38-75% versus standard 4D-Var.",
+      "Capstone project for AM 170B. Reimplements a Google Research 4D-Var data assimilation method in PyTorch with a learned inverse observation operator. On Lorenz-96 it beat standard 4D-Var on state-estimation error.",
     repo: "https://github.com/ericxu1070/invobs-data-assimilation",
   },
   {
     title: "Council of Sumer",
     year: "2026",
     description:
-      "UCSC AI Hackathon @ SF Tech Week. A multi-agent version of the 1968 city-management game Hamurabi. Five LLM advisors with conflicting goals run as separate processes, debate over AGNTCY SLIM, and vote on each year's plan. A deadlock goes to a runoff, then to a human tie-break. Across 16 seeded cities, the council kept 73% of reigns versus 56% for a single LLM and starved 27% fewer people.",
+      "UCSC AI Hackathon @ SF Tech Week. A multi-agent version of the 1968 city-management game Hamurabi. LLM advisors with conflicting goals run as separate processes, debate over AGNTCY SLIM, and vote on each year's plan, with runoffs and a human tie-break on deadlock. A benchmark compares the council with a single LLM.",
     repo: "https://github.com/ericxu1070/council-of-sumer",
   },
 ];
