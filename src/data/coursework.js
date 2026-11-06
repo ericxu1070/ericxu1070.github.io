@@ -1,29 +1,34 @@
 export const coursework = [
   {
-    group: "Applied Mathematics",
+    group: "Mathematics and numerics",
     courses: [
       ["AM 10", "Linear Algebra"],
       ["AM 20, 100", "Mathematical Methods II-III"],
-      ["AM 30", "Calculus III"],
       ["AM 112", "Intro to PDEs"],
-      ["AM 114, 224", "Dynamical Systems"],
+      ["AM 114", "Dynamical Systems"],
       ["AM 129", "Scientific Computing"],
       ["AM 147", "Computational Methods"],
-      ["AM 148", "GPU Programming"],
       ["AM 170A/B", "Mathematical Modeling I-II"],
-      ["AM 234", "ML and AI in Genomics"],
-      ["AM 261", "Scientific Machine Learning"],
+      ["AM 213A", "Numerical Linear Algebra", "graduate, in progress"],
+      ["AM 224", "Applied Dynamical Systems", "graduate"],
+      ["CSE 16", "Applied Discrete Mathematics"],
     ],
   },
   {
-    group: "Statistics and Computer Science",
+    group: "Probability, statistics and finance",
     courses: [
-      ["CSE 12", "Computer Systems and Assembly"],
-      ["CSE 16", "Applied Discrete Mathematics"],
       ["CSE 107", "Probability and Statistics"],
       ["STAT 132", "Classical and Bayesian Inference"],
-      ["STAT 266A", "Introduction to R"],
       ["MATH 114", "Financial Mathematics"],
+    ],
+  },
+  {
+    group: "Machine learning and computing",
+    courses: [
+      ["AM 148", "GPU Programming"],
+      ["AM 234", "ML and AI in Genomics", "graduate"],
+      ["AM 261", "Scientific Machine Learning", "graduate"],
+      ["CSE 12", "Computer Systems and Assembly"],
     ],
   },
 ];

@@ -19,29 +19,41 @@ const person = {
     { "@type": "Organization", name: "Vayuh.ai" },
   ],
   alumniOf: { "@type": "CollegeOrUniversity", name: "University of California, Santa Cruz" },
-  knowsAbout: ["Scientific machine learning", "Machine learning for weather and climate", "GPU computing", "Dynamical systems", "Data assimilation"],
+  knowsAbout: [
+    "Scientific machine learning",
+    "Machine learning for weather and climate",
+    "Rare-event sampling",
+    "GPU computing",
+    "Dynamical systems",
+    "Data assimilation",
+  ],
   sameAs: ["https://github.com/ericxu1070", "https://linkedin.com/in/exu06"],
 };
 const website = { "@context": "https://schema.org", "@type": "WebSite", name: "Eric Xu", url: Astro.site };
 const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
 ---
 
-<Base title="Eric Xu | Scientific ML & Climate" description="Eric Xu - M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz.">
+<Base
+  title="Eric Xu | Scientific ML & Climate"
+  description="Eric Xu, M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz (expected June 2027). Machine learning for forecasting weather extremes weeks ahead: rare-event sampling with AI weather-model ensembles, and GPU inference."
+>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(website)} />
   <header class="intro">
     {hasPhoto && <img class="photo" src="/me.jpg" alt="Eric Xu" width="160" height="160" />}
     <div>
       <h1>Eric Xu</h1>
+      <p class="tagline">
+        Machine learning for forecasting rare weather extremes weeks ahead, and the GPU pipelines that run it.
+      </p>
       <p class="contact">
-        M.S. student, Scientific Computing and Applied Mathematics<br />
-        University of California, Santa Cruz<br />
-        Email: <span class="nowrap">ericxu1070[at]gmail[dot]com</span>{" "}
-        <span class="nowrap">or exu23[at]ucsc[dot]edu</span><br />
-        <a href="https://github.com/ericxu1070">GitHub</a> ·{" "}
-        <a href="https://linkedin.com/in/exu06">LinkedIn</a> ·{" "}
-        <a href="/resume.pdf">Resume (PDF)</a> ·{" "}
-        <a href="/blog">Blog</a>
+        M.S. student, Scientific Computing and <span class="nowrap">Applied Mathematics</span><br />
+        UC Santa Cruz, expected June 2027<br />
+        <a href="mailto:ericxu1070@gmail.com">ericxu1070@gmail.com</a><br />
+        <a class="nowrap" href="https://github.com/ericxu1070">GitHub</a> ·{" "}
+        <a class="nowrap" href="https://linkedin.com/in/exu06">LinkedIn</a> ·{" "}
+        <a class="nowrap" href="/resume.pdf">Resume (PDF)</a> ·{" "}
+        <a class="nowrap" href="/cv.pdf">CV (PDF)</a>
       </p>
     </div>
   </header>
@@ -49,19 +61,21 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
   <section>
     <h2>Brief bio</h2>
     <p>
-      I am an M.S. student in Scientific Computing and Applied Mathematics at UC Santa Cruz. I graduated
-      from UC Santa Cruz with a B.S. in Applied Mathematics in 2026, with Highest Honors in the Major. In the
-      TACS Lab, advised by Prof. Ashesh Chattopadhyay, I work on machine learning for extreme weather prediction.
-      I am also a part-time ML researcher at Vayuh.ai. My interests are scientific machine learning, GPU
-      computing, and dynamical systems.
+      In the TACS Lab at UC Santa Cruz, advised by Prof. Ashesh Chattopadhyay, I adapt rare-event sampling to
+      ensembles of AI weather models, to forecast heat waves and cold outbreaks 3 to 4 weeks ahead. As a part-time
+      ML researcher at Vayuh.ai, I make those ensembles cheaper to run on GPUs. I am an M.S. student in Scientific
+      Computing and Applied Mathematics at UC Santa Cruz (Plan I thesis, expected June 2027), after a B.S. in
+      Applied Mathematics there in 2026 with Highest Honors in the Major.
+    </p>
+    <p>
+      I am applying to PhD programs for Fall 2027 and to machine learning and quantitative research roles starting
+      in 2027.
     </p>
   </section>
 
-  <section>
-    <h2>Papers and preprints</h2>
-    {papers.length === 0 ? (
-      <p class="muted">In preparation.</p>
-    ) : (
+  {papers.length > 0 && (
+    <section>
+      <h2>Papers and preprints</h2>
       <ul>
         {papers.map((p) => (
           <li>
@@ -72,27 +86,32 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
           </li>
         ))}
       </ul>
-    )}
-  </section>
+    </section>
+  )}
 
   <section>
     <h2>Research</h2>
     <ul>
       <li>
-        <strong>Researcher, TACS Lab</strong> <span class="muted">(Sep 2025 - present)</span><br />
-        Develop an AI ensemble method that combines machine-learned weather models with rare-event resampling to
-        forecast heat waves and cold outbreaks weeks ahead. Test it on past extreme events across the US, with
-        extreme precipitation planned next.
+        <strong>Researcher, TACS Lab</strong> <span class="muted nowrap">(Sep 2025 - present)</span><br />
+        Adapt the AI+RES rare-event sampling algorithm
+        (<a href="https://arxiv.org/abs/2510.27066">Lancelin et al., 2025</a>) to subseasonal forecasting:
+        ensembles of AI weather models (FourCastNet 3, GenCast) are cloned and pruned by forecast score to sample
+        heat waves and cold outbreaks 3 to 4 weeks ahead. Built the batch pipeline (JAX, PyTorch; Slurm on H100
+        nodes, PBS on NCAR Derecho) that launches ensembles weeks before past US extremes and checks against ERA5
+        whether they reach the observed event. The code is a private lab repository.
       </li>
       <li>
-        <strong>ML Researcher (part-time), Vayuh.ai</strong> <span class="muted">(Jul 2026 - present)</span><br />
-        Run multi-GPU inference and benchmarking experiments for subseasonal extreme-weather forecasts on H100
-        nodes. Cut the GPU cost of extreme-event forecasts by moving the ensemble to a faster AI weather model.
+        <strong>ML Researcher (part-time), Vayuh.ai</strong> <span class="muted nowrap">(Jul 2026 - present)</span><br />
+        Made GenCast's 0.25° JAX executable small enough for the persistent compile cache and added persistent GPU
+        workers, so each forecast case compiles the model once instead of at every leg. Benchmarked AI weather
+        models (GenCast, FourCastNet 3, SFNO) as ensemble members on H100 nodes and moved the ensemble to
+        FourCastNet 3, cutting GPU-hours per forecast case.
       </li>
     </ul>
     <p class="muted">
-      Interests: scientific machine learning and data assimilation; machine learning for weather and climate;
-      dynamical systems and numerical methods.
+      Interests: scientific machine learning, data assimilation, rare-event sampling, machine learning for weather
+      and climate, dynamical systems.
     </p>
   </section>
 
@@ -101,8 +120,8 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
     <ul>
       {projects.map((p) => (
         <li>
-          <strong>{p.title}</strong> <span class="muted">({p.year})</span>
-          {p.repo && <> [<a href={p.repo}>code</a>]</>}
+          <strong>{p.title}</strong> <span class="muted nowrap">({p.year})</span>
+          {p.links.map((l) => <>{" "}<span class="nowrap">[<a href={l.url}>{l.label}</a>]</span></>)}
           <br />
           {p.description}
         </li>
@@ -114,27 +133,34 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
     <h2>Education</h2>
     <ul>
       <li>
-        <strong>M.S. Scientific Computing and Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2026 - 2027)</span>
+        <strong>M.S. Scientific Computing and Applied Mathematics</strong>, UC Santa Cruz{" "}
+        <span class="muted nowrap">(expected June 2027)</span><br />
+        Plan I (thesis). Advisor: Prof. Ashesh Chattopadhyay.
       </li>
       <li>
-        <strong>B.S. Applied Mathematics</strong>, UC Santa Cruz <span class="muted">(2024 - 2026)</span><br />
-        Highest Honors in the Major. GPA 3.77 / 4.00. Dean's Honors, 4 quarters. Graduate coursework:
-        AM 224, AM 234, AM 261, STAT 266A.
+        <strong>B.S. Applied Mathematics</strong>, UC Santa Cruz <span class="muted nowrap">(2024 - 2026)</span><br />
+        Highest Honors in the Major. GPA 3.77 / 4.00. Dean's Honors, 4 quarters.
       </li>
     </ul>
+    <p>
+      Relevant coursework: Scientific Machine Learning (AM 261), Applied Dynamical Systems (AM 224), Numerical
+      Linear Algebra (AM 213A, in progress), GPU Programming (AM 148), Probability and Statistics (CSE 107),
+      Classical and Bayesian Inference (STAT 132), Financial Mathematics (MATH 114).
+    </p>
   </section>
 
   <section>
     <h2>Teaching</h2>
     <ul>
       <li>
-        <strong>Teaching Assistant</strong>, Baskin School of Engineering <span class="muted">(Fall 2026)</span><br />
-        AM 11A Differential Calculus for Economics; AM 20 Ordinary Differential Equations.
+        <strong>Teaching Assistant</strong>, Baskin School of Engineering <span class="muted nowrap">(Fall 2026)</span><br />
+        AM 20 Ordinary Differential Equations for Engineers; AM 11A Mathematical Methods for Economists I. Four
+        weekly discussion sections and office hours.
       </li>
       <li>
-        <strong>Tutor and Reader</strong>, Baskin School of Engineering <span class="muted">(Fall 2025 - Spring 2026)</span><br />
+        <strong>Tutor and Reader</strong>, Baskin School of Engineering <span class="muted nowrap">(Fall 2025 - Spring 2026)</span><br />
         AM 10 Mathematical Methods I (Linear Algebra), 3 consecutive quarters. Reader for CSE 16 Applied
-        Discrete Mathematics; tutor for MATH 19B Calculus II.
+        Discrete Mathematics; tutor for MATH 19B <span class="nowrap">Calculus II</span>.
       </li>
     </ul>
   </section>
@@ -142,11 +168,12 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
   <section>
     <h2>Skills</h2>
     <p>
-      <strong>Programming:</strong> Python, C++, MATLAB, R, Bash, RISC-V assembly<br />
-      <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, scikit-learn, Triton (GPU kernels)<br />
-      <strong>HPC and tools:</strong> SLURM, PBS, NCAR Derecho, Linux, Git, SSH<br />
+      <strong>Programming:</strong> Python (primary), C++ (working knowledge), MATLAB, R, Bash<br />
+      <strong>Machine learning and scientific computing:</strong> PyTorch, JAX, NumPy, scikit-learn<br />
+      <strong>HPC and tools:</strong> Slurm, PBS, NCAR Derecho, H100 nodes, Linux, Git, SSH<br />
+      <strong>Familiar from coursework:</strong> Triton (GPU kernels), RISC-V assembly<br />
       <strong>Mathematical areas:</strong> Linear algebra, differential equations, PDEs, dynamical systems,
-      numerical methods, deep learning
+      numerical methods, probability and statistics
     </p>
   </section>
 
@@ -157,10 +184,13 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
         <h3>{g.group}</h3>
         <table class="courses">
           <tbody>
-            {g.courses.map(([code, name]) => (
+            {g.courses.map(([code, name, note]) => (
               <tr>
                 <td class="muted">{code}</td>
-                <td>{name}</td>
+                <td>
+                  {name}
+                  {note && <span class="muted"> ({note})</span>}
+                </td>
               </tr>
             ))}
           </tbody>
