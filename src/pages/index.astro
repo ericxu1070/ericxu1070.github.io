@@ -103,10 +103,11 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
       </li>
       <li>
         <strong>ML Researcher (part-time), Vayuh.ai</strong> <span class="muted nowrap">(Jul 2026 - present)</span><br />
-        Made GenCast's 0.25° JAX executable small enough for the persistent compile cache and added persistent GPU
-        workers, so each forecast case compiles the model once instead of at every leg. Benchmarked AI weather
-        models (GenCast, FourCastNet 3, SFNO) as ensemble members on H100 nodes and moved the ensemble to
-        FourCastNet 3, cutting GPU-hours per forecast case.
+        Cut GenCast's 0.25° JAX executable from 4.17 GB to 107 MB so it fits the persistent compile cache, and
+        added persistent GPU workers, so each forecast case compiles the model once instead of at every leg.
+        Benchmarked GenCast, FourCastNet 3, and SFNO as ensemble members on H100 nodes, then moved the ensemble to
+        FourCastNet 3 walkers with an SFNO scorer: about 27x less compute per forecast case (<span class="nowrap">33.5 to
+        1.2 H100-hours</span>).
       </li>
     </ul>
     <p class="muted">
@@ -154,8 +155,8 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
     <ul>
       <li>
         <strong>Teaching Assistant</strong>, Baskin School of Engineering <span class="muted nowrap">(Fall 2026)</span><br />
-        AM 20 Ordinary Differential Equations for Engineers; AM 11A Mathematical Methods for Economists I. Four
-        weekly discussion sections and office hours.
+        AM 20 Ordinary Differential Equations for Engineers; AM 11A Mathematical Methods for Economists I. Multiple
+        weekly group tutoring sessions and office hours.
       </li>
       <li>
         <strong>Tutor and Reader</strong>, Baskin School of Engineering <span class="muted nowrap">(Fall 2025 - Spring 2026)</span><br />
