@@ -20,9 +20,8 @@ export const projects = [
     title: "4D-Var Data Assimilation with a Learned Inverse Operator",
     year: "2026",
     description:
-      "AM 170B capstone, team of 5. Frerix et al. (ICML 2021) learn an inverse observation operator to make 4D-Var easier to optimize. I wrote most of our PyTorch port of their JAX code and reproduced the Lorenz-96 results. We then extended the paper with the full 4D-Var cost, noisy observations, and sliding-window cycling; I studied gradient blow-up over long assimilation windows and ran the sliding-window experiments on Lorenz-96 and 2D Kolmogorov flow. On Lorenz-96, learned-inverse initialization with hybrid optimization gave the lowest analysis RMSE at every noise level.",
+      "AM 170B capstone, team of 5. Frerix et al. (ICML 2021) learn an inverse observation operator to make 4D-Var easier to optimize. I wrote most of our PyTorch port of their JAX code and reproduced the Lorenz-96 results. We then extended the paper with the full 4D-Var cost, noisy observations, and sliding-window cycling; I studied gradient blow-up over long assimilation windows and ran the sliding-window experiments on Lorenz-96 and 2D Kolmogorov flow.",
     links: [
-      { label: "report (PDF)", url: "https://github.com/ericxu1070/invobs-data-assimilation/blob/master/paper/main.pdf" },
       { label: "code", url: "https://github.com/ericxu1070/invobs-data-assimilation" },
     ],
   },
