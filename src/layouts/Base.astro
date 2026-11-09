@@ -29,7 +29,7 @@ const url = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <slot name="head" />
@@ -102,7 +102,8 @@ const url = new URL(Astro.url.pathname, Astro.site);
 
   h1 {
     font-size: 2.1rem;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     line-height: 1.15;
     margin: 0 0 10px;
   }
@@ -138,7 +139,7 @@ const url = new URL(Astro.url.pathname, Astro.site);
     font-weight: 600;
     margin: 0 0 12px;
     padding-bottom: 4px;
-    border-bottom: 1px dashed var(--rule);
+    border-bottom: 1px solid var(--rule);
   }
 
   section {
@@ -161,7 +162,7 @@ const url = new URL(Astro.url.pathname, Astro.site);
   .intro {
     display: flex;
     gap: 28px;
-    align-items: center;
+    align-items: flex-start;
     padding-bottom: 28px;
     border-bottom: 1px solid var(--rule);
   }
@@ -170,7 +171,8 @@ const url = new URL(Astro.url.pathname, Astro.site);
     width: 160px;
     height: 160px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 14px;
+    margin-top: 6px; /* lines the photo's top edge up with the name's cap height */
     flex-shrink: 0;
   }
 
@@ -180,9 +182,14 @@ const url = new URL(Astro.url.pathname, Astro.site);
   }
 
   .contact {
-    margin: 0;
+    margin: 0 0 8px;
     font-size: 0.9rem;
     line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .links {
+    margin: 0;
     color: var(--muted);
   }
 
@@ -219,6 +226,12 @@ const url = new URL(Astro.url.pathname, Astro.site);
     .photo {
       width: 128px;
       height: 128px;
+      margin-top: 0;
+    }
+
+    .courses td:first-child {
+      width: 6em;
+      padding-right: 8px;
     }
   }
 </style>

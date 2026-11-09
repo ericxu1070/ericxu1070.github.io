@@ -6,7 +6,7 @@ export const projects = [
     title: "Council of Sumer",
     year: "2026",
     description:
-      "A council of five LLM agents with conflicting goals, built at the UCSC AI Hackathon @ SF Tech Week (team of 3). The agents run as separate processes, debate over AGNTCY SLIM, and vote on each year's plan in the 1968 city-management game Hamurabi, with runoffs and a human tie-break on deadlock. I co-wrote the deliberation engine and the benchmark; over 16 seeded games, the council improved on the single-LLM baseline.",
+      "A council of five LLM agents with conflicting goals, built at the UCSC AI Hackathon @ SF Tech Week (team of 3). The agents run as separate processes, debate over AGNTCY SLIM, and vote on each year's plan in the 1968 city-management game Hamurabi, with runoffs and a human tie-break on deadlock. I co-wrote the deliberation engine and the benchmark; over 16 seeded games, the council survived 11 of 15 scored reigns, against 9 of 16 for a single LLM, and starved 27% fewer people.",
     links: [{ label: "code", url: "https://github.com/ericxu1070/council-of-sumer" }],
   },
   {
