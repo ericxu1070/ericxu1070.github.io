@@ -13,7 +13,7 @@ export const projects = [
     title: "Cross-Species Transfer Learning with DeepSEA",
     year: "2026",
     description:
-      "Fine-tunes the human-trained DeepSEA genomic sequence model on mouse ENCODE data. Fine-tuning beat training from scratch on 115 of 133 chromatin features (median AUROC 0.877 vs 0.865) and converged in fewer epochs, while zero-shot transfer scored near chance (median AUROC 0.50).",
+      "Fine-tunes the human-trained DeepSEA genomic sequence model on mouse ENCODE data. Fine-tuning beat training from scratch on 115 of 133 chromatin features (median AUROC 0.877 vs 0.865) and reached its best validation loss in 5 epochs, against 12 from scratch.",
     links: [{ label: "code", url: "https://github.com/ericxu1070/DeepSEA-Transfer-Learning" }],
   },
   {
