@@ -106,9 +106,9 @@ const lastUpdated = new Date().toLocaleDateString("en-US", { month: "long", year
       <li>
         <strong>ML Researcher (part-time), Vayuh.ai</strong> <span class="muted nowrap">(Jul 2026 – present)</span><br />
         Put the AI+RES rare-event sampling algorithm into production for extreme-weather forecasts 3 to 4 weeks
-        ahead. Benchmarked GenCast, FourCastNet 3, and SFNO in different ensemble configurations on H100 nodes and
-        cut compute per forecast case about 27x (<span class="nowrap">33.5 to 1.23 H100-hours</span>). Profiled
-        runs with NVIDIA Nsight and nvidia-smi to find the slowest stages and GPU kernels, then optimized them.
+        ahead. Benchmarked GenCast, FourCastNet 3, and SFNO in different ensemble configurations on NVIDIA H100 and
+        RTX PRO 6000 GPUs and cut compute per forecast case about 27x (<span class="nowrap">33.5 to 1.23 H100-hours</span>).
+        Optimized model inference for the ensemble runs, including custom Triton GPU kernels for FourCastNet 3.
       </li>
     </ul>
     <p class="muted">
